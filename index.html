@@ -1,0 +1,48 @@
+<html>
+<head>
+       <title> App by sanket</title>
+       <style>
+               *{font-size:40px;}
+                body{background-color:lightyellow;}
+
+       </style>
+       <script>
+               
+               function convert(){
+               event.preventDefault();
+               let ans=document.getElementById("ans");
+               let aid=document.getElementById("aid");
+               if(aid.value==""){
+                 alert("enter amount");
+                 ans.innerHTML="";
+                 aid.focus();
+                 return;
+               }
+               let urladd="https://api.exchangerate-api.com/v4/latest/USD";
+               fetch(urladd)
+               .then(res=> res.json()) //javascript object notation
+               .then(data=>{
+                             let dollar=data["rates"]["INR"]
+                             let d=parseFloat(aid.value);
+                             let r=d*dollar;
+                             let msg="amount in \u20B9" + r.toFixed(2);
+                             ans.innerHTML=msg; 
+               }) 
+               .catch(err=>ans.innerHTML="issue "+err);
+                
+               }
+             
+          </script>
+       
+<body>
+<center>
+         <h1>USD into RS</h1>
+         <form onsubmit="convert()">
+         <input type="number" placeholder="enter amount in $" id="aid"><br><br>
+         <input type="submit" value="convert">
+         </form>
+         <h1 id="ans"></h1>
+
+</center>
+</body>
+</html>
